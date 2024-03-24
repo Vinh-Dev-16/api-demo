@@ -43,21 +43,27 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
     public function getName()
     {
         return $this->name ?? '';
     }
+
     public function getEmail()
     {
         return $this->email ?? '';
     }
+
     public function getPassword()
     {
         return $this->password ?? '';
     }
+
     public function getEmailVerifiedAt()
     {
         return $this->email_verified_at ?? '';
+    }
+    public function getId()
+    {
+        return $this->id ?? 0;
     }
 }
