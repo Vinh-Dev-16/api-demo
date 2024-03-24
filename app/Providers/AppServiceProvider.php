@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+
+use App\Services\Users\GetUserService;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -14,6 +16,10 @@ class AppServiceProvider extends ServiceProvider
     public function register()
     {
         //
+        $this->app->bind(
+            \App\Services\Users\GetUserServiceInterface::class,
+            \App\Services\Users\GetUserService::class
+        );
     }
 
     /**
@@ -24,5 +30,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         //
+
     }
 }

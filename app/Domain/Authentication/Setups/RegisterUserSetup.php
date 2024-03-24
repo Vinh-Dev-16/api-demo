@@ -2,7 +2,6 @@
 
 namespace App\Domain\Authentication\Setups;
 
-use App\Common\Enums\Status;
 use App\Domain\Authentication\DTO\RegisterDTO;
 
 class RegisterUserSetup
@@ -17,23 +16,17 @@ class RegisterUserSetup
             'password' => bcrypt($dto->getPassword()),
         ];
         $this->setDataCreate($dataCreate);
+
         return $this;
     }
 
-    /**
-     * @return array
-     */
     public function getDataCreate(): array
     {
         return $this->dataCreate;
     }
 
-    /**
-     * @param array $dataCreate
-     */
     public function setDataCreate(array $dataCreate): void
     {
         $this->dataCreate = $dataCreate;
     }
-
 }

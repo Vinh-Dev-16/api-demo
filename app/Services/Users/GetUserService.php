@@ -1,8 +1,8 @@
 <?php
 
-namespace App\Services;
+namespace App\Services\Users;
 use App\Models\User;
-use App\Services\GetUserServiceInterface;
+use App\Services\Users\GetUserServiceInterface;
 
 class GetUserService implements GetUserServiceInterface
 {

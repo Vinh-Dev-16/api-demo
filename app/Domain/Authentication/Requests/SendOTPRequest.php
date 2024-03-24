@@ -32,6 +32,7 @@ class SendOTPRequest extends FormRequest
     {
         $dto = $this->dto;
         $dto->setEmail($this->input('email'));
+
         return $dto;
     }
 }

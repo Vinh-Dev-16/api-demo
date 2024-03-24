@@ -23,7 +23,8 @@ class VerifyEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email'
+            'email' => 'required|email',
+            'otp' => 'required|string',
         ];
     }
 
@@ -31,6 +32,7 @@ class VerifyEmailRequest extends FormRequest
     {
         $dto = $this->dto;
         $dto->setEmail($this->input('email'));
+
         return $dto;
     }
 }
