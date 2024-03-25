@@ -4,6 +4,7 @@ namespace App\Domain\Authentication\Controllers;
 
 use App\Domain\Authentication\Features\RegisterFeature;
 use App\Domain\Authentication\Features\SendOTPFeature;
+use App\Domain\Authentication\Features\VerifyEmailFeature;
 use App\Domain\Authentication\Requests\RegisterRequest;
 use App\Domain\Authentication\Requests\SendOTPRequest;
 use App\Domain\Authentication\Requests\VerifyEmailRequest;
@@ -15,9 +16,10 @@ use Symfony\Component\HttpFoundation\Response;
 class AuthenticationController extends Controller
 {
     public function __construct(
-        Request $request,
-        protected RegisterFeature $registerFeature,
-        protected SendOTPFeature $getOtpFeature,
+        Request                      $request,
+        protected RegisterFeature    $registerFeature,
+        protected SendOTPFeature     $getOtpFeature,
+        protected VerifyEmailFeature $verifyEmailFeature,
     ) {
     }
 
@@ -43,10 +45,10 @@ class AuthenticationController extends Controller
     {
         $dto = $request->getDTO();
         $this->getOtpFeature->setDto($dto);
-        $this->getOtpFeature->handle();
-
+        $data = $this->getOtpFeature->handle();
         return response()->json([
             'message' => 'OTP sent successfully',
+            'data'    => $data
         ], Response::HTTP_OK);
     }
 
