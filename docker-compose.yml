@@ -1,0 +1,15 @@
+version: "2.4"
+
+services:
+  workspace:
+    image: "mine/demo"
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    container_name: "api_demo"
+    working_dir: /var/www/html
+    ports:
+      - "8116:80"
+    volumes:
+      - .:/var/www/html
+    restart: on-failure
