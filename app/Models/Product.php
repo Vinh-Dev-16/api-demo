@@ -3,6 +3,9 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Product extends Model
 {
@@ -27,10 +30,21 @@ class Product extends Model
             'is_deleted'
         ];
 
-    public function categories()
+    public function categories(): BelongsToMany
     {
-
+        return $this->belongsToMany(Category::class, 'category_products', 'id_product', 'id_category')->withTimestamps();
     }
+
+    public function brand(): BelongsTo
+    {
+        return $this->belongsTo(Brand::class);
+    }
+
+    public function images(): HasMany
+    {
+        return $this->hasMany(Image::class);
+    }
+
 
 
     public function getId(): int
@@ -70,7 +84,7 @@ class Product extends Model
 
     public function getDescription(): string
     {
-        return $this->description;
+        return $this->description ?? '';
     }
 
     public function getBrandId(): int

@@ -25,4 +25,10 @@ class ProductController extends Controller
         return response()->json(['message' => 'List product',
             'data' => $data], Response::HTTP_OK);
     }
+
+    public function detailProduct(DetailProductRequest $request): JsonResponse
+    {
+        $dto = $request->getDto();
+        return response()->json(['message' => 'Detail product'], Response::HTTP_OK);
+    }
 }
