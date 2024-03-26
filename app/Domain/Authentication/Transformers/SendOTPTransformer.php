@@ -10,7 +10,6 @@ class SendOTPTransformer implements TransformSingleInterface
 {
 
     private User $user;
-    private string $otp;
 
     public function __construct(
         private readonly UserTransformer $userTransformer
@@ -23,7 +22,6 @@ class SendOTPTransformer implements TransformSingleInterface
         $user = $this->userTransformer->single($this->user);
         return [
             'user' => $user,
-            'otp'  => $this->otp,
         ];
     }
 
@@ -33,13 +31,4 @@ class SendOTPTransformer implements TransformSingleInterface
     public function setUser(User $user): void
     {
         $this->user = $user;
-    }
-
-    /**
-     * @param  string  $otp
-     */
-    public function setOtp(string $otp): void
-    {
-        $this->otp = $otp;
-    }
-}
+    }}

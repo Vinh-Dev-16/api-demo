@@ -13,19 +13,22 @@ class VerifyEmailSetup
     public function handle(
         int          $userId,
         int          $otp,
-        ?VerifyEmail $verifyEmail
-    ): self {
+        ?VerifyEmail $verifyEmail,
+        string       $email
+    ): self
+    {
         $dataCreate = [];
         $dataUpdate = [];
         if ($verifyEmail) {
             $dataUpdate = [
-                'otp'         => $otp,
+                'otp' => $otp,
                 'set_up_time' => Carbon::now()->addMinute(2)->timestamp,
             ];
         } else {
             $dataCreate = [
-                'user_id'     => $userId,
-                'otp'         => $otp,
+                'email' => $email,
+                'user_id' => $userId,
+                'otp' => $otp,
                 'set_up_time' => Carbon::now()->addMinute(2)->timestamp,
             ];
         }
@@ -43,7 +46,7 @@ class VerifyEmailSetup
     }
 
     /**
-     * @param  array  $dataCreate
+     * @param array $dataCreate
      */
     public function setDataCreate(array $dataCreate): void
     {
@@ -59,7 +62,7 @@ class VerifyEmailSetup
     }
 
     /**
-     * @param  array  $dataUpdate
+     * @param array $dataUpdate
      */
     public function setDataUpdate(array $dataUpdate): void
     {

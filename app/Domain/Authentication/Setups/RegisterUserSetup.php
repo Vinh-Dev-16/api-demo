@@ -7,6 +7,7 @@ use App\Domain\Authentication\DTO\RegisterDTO;
 class RegisterUserSetup
 {
     private array $dataCreate;
+    private int $id;
 
     public function handle(RegisterDTO $dto): self
     {
@@ -29,4 +30,22 @@ class RegisterUserSetup
     {
         $this->dataCreate = $dataCreate;
     }
+
+    /**
+     * @return int
+     */
+    public function getId(): int
+    {
+        return $this->id;
+    }
+
+    /**
+     * @param int $id
+     */
+    public function setId(int $id): void
+    {
+        $this->id = $id;
+    }
+
+
 }
