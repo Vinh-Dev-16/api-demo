@@ -12,4 +12,11 @@ class GetUserService implements GetUserServiceInterface
         return User::where('email', $email)
             ->first() ?? new User();
     }
+
+    public function byIdNotVerify(int $id): User
+    {
+        return User::where('id', $id)
+            ->where('email_verified_at', null)
+            ->first() ?? new User();
+    }
 }

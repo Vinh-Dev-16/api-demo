@@ -2,7 +2,6 @@
 
 namespace App\Domain\Authentication\Features;
 
-use App\Common\Transformers\TransformSingleInterface;
 use App\Domain\Authentication\Actions\GetVerifyEmailAction;
 use App\Domain\Authentication\Actions\UpsertVerifyEmailAction;
 use App\Domain\Authentication\DTO\SendOTPDTO;
@@ -20,7 +19,7 @@ class SendOTPFeature
         protected VerifyEmailSetup        $verifyEmailSetup,
         protected GetVerifyEmailAction    $getVerifyEmailAction,
         protected UpsertVerifyEmailAction $upsertVerifyEmailAction,
-        protected SendOTPTransformer        $sendOTPTransformer
+        protected SendOTPTransformer      $sendOTPTransformer
     )
     {
     }
@@ -30,18 +29,25 @@ class SendOTPFeature
         $this->dto = $dto;
     }
 
+    /**
+     * @throws \Exception
+     */
     public function handle(): array
     {
         $dto = $this->dto;
         $user = $this->getUserService->byEmail($dto->getEmail());
-        $otp = rand(100000, 999999);
-        $verifyEmail = $this->getVerifyEmailAction->handle(
-            $user->getEmail());
-        $verifyEmailSetup = $this->verifyEmailSetup->handle($user->getId(), $otp, $verifyEmail);
-        $this->upsertVerifyEmailAction->handle($verifyEmailSetup, $verifyEmail);
-        SendOtpEmailEvent::dispatch($dto->getEmail(), $otp);
-        $this->sendOTPTransformer->setUser($user);
-        $this->sendOTPTransformer->setOtp($otp);
-        return $this->sendOTPTransformer->single();
+        try {
+            $otp = rand(100000, 999999);
+            $verifyEmail = $this->getVerifyEmailAction->handle(
+                $user->getEmail());
+            $verifyEmailSetup = $this->verifyEmailSetup->handle($user->getId(), $otp,
+                $verifyEmail, $dto->getEmail());
+            $this->upsertVerifyEmailAction->handle($verifyEmailSetup, $verifyEmail);
+            SendOtpEmailEvent::dispatch($dto->getEmail(), $otp);
+            $this->sendOTPTransformer->setUser($user);
+            return $this->sendOTPTransformer->single();
+        } catch (\Exception $e) {
+            throw new \Exception($e->getMessage());
+        }
     }
 }

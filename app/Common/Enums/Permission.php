@@ -2,7 +2,13 @@
 
 namespace App\Common\Enums;
 
-enum Permission
+use App\Common\Enums\Interface\GetValuesInterface;
+use App\Common\Enums\Traits\GetValuesTrait;
+
+enum Permission: string implements GetValuesInterface
 {
+    use GetValuesTrait;
+
+    case DELETE_USER = 'delete-user';
 
 }

@@ -2,7 +2,9 @@
 
 namespace App\Providers;
 
+use App\Domain\Authentication\Events\RegisterUserEvent;
 use App\Domain\Authentication\Events\SendOtpEmailEvent;
+use App\Domain\Authentication\Listeners\RegisterUserListener;
 use App\Domain\Authentication\Listeners\SendOtpMailListener;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
@@ -21,6 +23,9 @@ class EventServiceProvider extends ServiceProvider
         ],
         SendOtpEmailEvent::class => [
             SendOtpMailListener::class,
+        ],
+        RegisterUserEvent::class => [
+            RegisterUserListener::class,
         ],
     ];
 

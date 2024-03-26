@@ -5,7 +5,7 @@ namespace App\Domain\Authentication\Rules;
 use App\Models\User;
 use Illuminate\Contracts\Validation\Rule;
 
-class CheckEmailVerifiedRule implements Rule
+class CheckEmailNotVerifiedRule implements Rule
 {
     public function passes($attribute, $value): bool
     {

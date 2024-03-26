@@ -3,7 +3,7 @@
 namespace App\Domain\Authentication\Requests;
 
 use App\Domain\Authentication\DTO\VerifyEmailDTO;
-use App\Domain\Authentication\Rules\CheckEmailVerifiedRule;
+use App\Domain\Authentication\Rules\CheckEmailNotVerifiedRule;
 use App\Domain\Authentication\Rules\CheckOTPIsCorrectRule;
 use App\Domain\Authentication\Rules\CheckOTPIsExpiredRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -29,7 +29,7 @@ class VerifyEmailRequest extends FormRequest
             'email' => [
                 'required',
                 'email',
-                new CheckEmailVerifiedRule()
+                new CheckEmailNotVerifiedRule()
             ],
             'otp'   => [
                 'required',
