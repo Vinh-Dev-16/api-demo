@@ -4,15 +4,17 @@ namespace App\Domain\Authentication\Features;
 
 use App\Common\Transformers\TransformSingleInterface;
 use App\Domain\Authentication\DTO\LoginDTO;
+use App\Domain\Authentication\Transformers\LoginTransformer;
 use App\Services\Users\GetUserServiceInterface;
+use Illuminate\Support\Facades\Log;
 
 class LoginFeature
 {
     private LoginDTO $dto;
 
     public function __construct(
-//        public readonly LoginTransformer $transformer,
-        public  GetUserServiceInterface $getUserService
+        public readonly LoginTransformer $transformer,
+        public GetUserServiceInterface   $getUserService
     ) {
     }
 
@@ -24,7 +26,7 @@ class LoginFeature
         $this->dto = $dto;
     }
 
-    public function handle(): void
+    public function handle(): array
     {
         $dto         = $this->dto;
         $credentials = [
@@ -32,15 +34,11 @@ class LoginFeature
             'password' => $dto->getPassword()
         ];
         $user        = $this->getUserService->byEmail($dto->getEmail());
+
         $token       = auth()->attempt($credentials);
-        $roles       = $user->getRoleNames();
-        $permissions = $user->getAllPermissions();
-        dd($roles);
-//        $this->transformer->setUser($user);
-//        $this->transformer->setToken($token);
-//        $this->transformer->setRoles($roles);
-//        $this->transformer->setPermissions($permissions);
-//        return $this->transformer->single();
+        $this->transformer->setUser($user);
+        $this->transformer->setToken($token);
+        return $this->transformer->single();
     }
 
 
