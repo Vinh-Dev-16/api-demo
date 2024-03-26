@@ -2,16 +2,23 @@
 
 namespace App\Domain\Authentication\DTO;
 
-class VerifyEmailDTO
+class LoginDTO
 {
-    private string $email;
-    private string $otp;
 
+    private string $email;
+    private string $password;
+
+    /**
+     * @return string
+     */
     public function getEmail(): string
     {
         return $this->email;
     }
 
+    /**
+     * @param string $email
+     */
     public function setEmail(string $email): void
     {
         $this->email = $email;
@@ -20,18 +27,17 @@ class VerifyEmailDTO
     /**
      * @return string
      */
-    public function getOtp(): string
+    public function getPassword(): string
     {
-        return $this->otp;
+        return $this->password;
     }
 
     /**
-     * @param string $otp
+     * @param string $password
      */
-    public function setOtp(string $otp): void
+    public function setPassword(string $password): void
     {
-        $this->otp = $otp;
+        $this->password = $password;
     }
 
-    
 }

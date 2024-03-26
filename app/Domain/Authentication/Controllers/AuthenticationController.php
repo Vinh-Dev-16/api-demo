@@ -2,8 +2,11 @@
 
 namespace App\Domain\Authentication\Controllers;
 
+use App\Domain\Authentication\Features\LoginFeature;
 use App\Domain\Authentication\Features\RegisterFeature;
 use App\Domain\Authentication\Features\SendOTPFeature;
+use App\Domain\Authentication\Features\VerifyEmailFeature;
+use App\Domain\Authentication\Requests\LoginRequest;
 use App\Domain\Authentication\Requests\RegisterRequest;
 use App\Domain\Authentication\Requests\SendOTPRequest;
 use App\Domain\Authentication\Requests\VerifyEmailRequest;
@@ -15,12 +18,17 @@ use Symfony\Component\HttpFoundation\Response;
 class AuthenticationController extends Controller
 {
     public function __construct(
-        Request $request,
-        protected RegisterFeature $registerFeature,
-        protected SendOTPFeature $getOtpFeature,
+        Request                      $request,
+        protected RegisterFeature    $registerFeature,
+        protected SendOTPFeature     $getOtpFeature,
+        protected VerifyEmailFeature $verifyEmailFeature,
+        protected LoginFeature       $loginFeature
     ) {
     }
 
+    /**
+     * @throws \Exception
+     */
     public function register(RegisterRequest $request): JsonResponse
     {
         $dto = $request->getDto();
@@ -39,19 +47,25 @@ class AuthenticationController extends Controller
         return response()->json(['message' => 'Email verified successfully'], Response::HTTP_OK);
     }
 
+    /**
+     * @throws \Exception
+     */
     public function sendOPT(SendOTPRequest $request): JsonResponse
     {
         $dto = $request->getDTO();
         $this->getOtpFeature->setDto($dto);
-        $this->getOtpFeature->handle();
-
+        $data = $this->getOtpFeature->handle();
         return response()->json([
             'message' => 'OTP sent successfully',
+            'data'    => $data
         ], Response::HTTP_OK);
     }
 
-    public function login(Request $request): JsonResponse
+    public function login(LoginRequest $request): JsonResponse
     {
+        $dto = $request->getDTO();
+        $this->loginFeature->setDto($dto);
+        $this->loginFeature->handle();
         return response()->json(['message' => 'User logged in successfully'], Response::HTTP_OK);
     }
 }

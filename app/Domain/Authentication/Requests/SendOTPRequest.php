@@ -3,7 +3,8 @@
 namespace App\Domain\Authentication\Requests;
 
 use App\Domain\Authentication\DTO\SendOTPDTO;
-use App\Domain\Authentication\Rules\CheckEmailVerifiedRule;
+use App\Domain\Authentication\Rules\CheckEmailNotVerifiedRule;
+use App\Domain\Authentication\Rules\CheckOTPIsExistRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class SendOTPRequest extends FormRequest
@@ -24,7 +25,9 @@ class SendOTPRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => ['required', 'email', new CheckEmailVerifiedRule()],
+            'email' => ['required', 'email', new CheckEmailNotVerifiedRule(),
+                    new CheckOTPIsExistRule()
+            ],
         ];
     }
 

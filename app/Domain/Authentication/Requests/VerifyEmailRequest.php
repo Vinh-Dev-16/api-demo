@@ -3,6 +3,9 @@
 namespace App\Domain\Authentication\Requests;
 
 use App\Domain\Authentication\DTO\VerifyEmailDTO;
+use App\Domain\Authentication\Rules\CheckEmailNotVerifiedRule;
+use App\Domain\Authentication\Rules\CheckOTPIsCorrectRule;
+use App\Domain\Authentication\Rules\CheckOTPIsExpiredRule;
 use Illuminate\Foundation\Http\FormRequest;
 
 class VerifyEmailRequest extends FormRequest
@@ -23,8 +26,20 @@ class VerifyEmailRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'email' => 'required|email',
-            'otp' => 'required|string',
+            'email' => [
+                'required',
+                'email',
+                new CheckEmailNotVerifiedRule()
+            ],
+            'otp'   => [
+                'required',
+                'string',
+                'min:6',
+                'max:6',
+                'regex:/^[0-9]*$/',
+                new CheckOTPIsCorrectRule($this->get('email') ?? ''),
+                new CheckOTPIsExpiredRule($this->get('email') ?? ''),
+            ],
         ];
     }
 
