@@ -24,6 +24,7 @@ class AuthenticationController extends Controller
         protected VerifyEmailFeature $verifyEmailFeature,
         protected LoginFeature       $loginFeature
     ) {
+        $this->middleware('auth:api', ['except' => ['login']]);
     }
 
     /**
@@ -65,7 +66,10 @@ class AuthenticationController extends Controller
     {
         $dto = $request->getDTO();
         $this->loginFeature->setDto($dto);
-        $this->loginFeature->handle();
-        return response()->json(['message' => 'User logged in successfully'], Response::HTTP_OK);
+        $data = $this->loginFeature->handle();
+        return response()->json([
+            'message' => 'User logged in successfully',
+            'data'    => $data
+        ], Response::HTTP_OK);
     }
 }

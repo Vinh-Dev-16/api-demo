@@ -15,6 +15,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 require base_path('app/Domain/Authentication/Routes/api.php');
+require base_path('app/Domain/Admin/Product/Routes/api.php');
 //Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 //    return $request->user();
 //});
