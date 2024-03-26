@@ -27,6 +27,12 @@ class Product extends Model
             'is_deleted'
         ];
 
+    public function categories()
+    {
+
+    }
+
+
     public function getId(): int
     {
         return $this->id;

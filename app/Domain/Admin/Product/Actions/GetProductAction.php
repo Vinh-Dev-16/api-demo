@@ -19,6 +19,7 @@ class GetProductAction
                     ->orWhere('description', 'like', '%'.$dto->getKeyword().'%')
                     ->orWhere('price', 'like', '%'.$dto->getKeyword().'%');
             })
+            ->with('categories', 'brand', 'images')
             ->paginate($dto->getLimit(), '*', 'page', $dto->getPage());
     }
 }
