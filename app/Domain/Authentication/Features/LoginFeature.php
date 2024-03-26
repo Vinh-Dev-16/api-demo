@@ -9,15 +9,15 @@ use App\Services\Users\GetUserServiceInterface;
 class LoginFeature
 {
     private LoginDTO $dto;
+
     public function __construct(
 //        public readonly LoginTransformer $transformer,
-        public readonly GetUserServiceInterface $getUserService
-    )
-    {
+        public  GetUserServiceInterface $getUserService
+    ) {
     }
 
     /**
-     * @param LoginDTO $dto
+     * @param  LoginDTO  $dto
      */
     public function setDto(LoginDTO $dto): void
     {
@@ -26,15 +26,14 @@ class LoginFeature
 
     public function handle(): void
     {
-        $dto = $this->dto;
+        $dto         = $this->dto;
         $credentials = [
-            'email' => $dto->getEmail(),
+            'email'    => $dto->getEmail(),
             'password' => $dto->getPassword()
         ];
-        $token = auth()->attempt($credentials);
-        dd($token);
-        $user = $this->getUserService->byEmail($dto->getEmail());
-        $roles = $user->getRoleNames();
+        $user        = $this->getUserService->byEmail($dto->getEmail());
+        $token       = auth()->attempt($credentials);
+        $roles       = $user->getRoleNames();
         $permissions = $user->getAllPermissions();
         dd($roles);
 //        $this->transformer->setUser($user);
