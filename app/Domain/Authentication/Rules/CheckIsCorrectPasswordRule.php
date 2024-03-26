@@ -2,7 +2,7 @@
 
 namespace App\Domain\Authentication\Rules;
 
-class CheckEmailVerifiedRule
+class CheckIsCorrectPasswordRule
 {
 
 }
