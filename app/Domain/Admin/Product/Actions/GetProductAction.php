@@ -22,4 +22,12 @@ class GetProductAction
             ->with('categories', 'brand', 'images')
             ->paginate($dto->getLimit(), '*', 'page', $dto->getPage());
     }
+
+    public function byId(int $id): Product
+    {
+        return Product::where('id', $id)
+            ->where('is_deleted', SoftDelete::ACTIVE->value)
+            ->with('categories', 'brand', 'images')
+            ->first();
+    }
 }
